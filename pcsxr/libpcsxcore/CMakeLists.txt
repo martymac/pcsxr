@@ -18,6 +18,12 @@ if (USE_LIBARCHIVE)
   add_definitions(-DHAVE_LIBARCHIVE)
 endif()
 
+find_package (Intl REQUIRED)
+if(NOT Intl_FOUND)
+    message(FATAL_ERROR "Intl library not found")
+endif(NOT Intl_FOUND)
+include_directories(${Intl_INCLUDE_DIRS})
+
 # Architecture detection and arch specific settings
 message(${CMAKE_SYSTEM_PROCESSOR})
 if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "^powerpc")

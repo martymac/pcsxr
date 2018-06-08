@@ -20,6 +20,12 @@ set(GTK_LIBRARIES ${GTK3_LIBRARY} ${GDK3_LIBRARY} ${GDKPixbuf_LIBRARY} ${Pango_L
 
 find_package(X11 REQUIRED)
 
+find_package (Intl REQUIRED)
+if(NOT Intl_FOUND)
+    message(FATAL_ERROR "Intl library not found")
+endif(NOT Intl_FOUND)
+include_directories(${Intl_INCLUDE_DIRS})
+
 #defs
 add_definitions(-DLOCALE_DIR="${CMAKE_INSTALL_FULL_DATAROOTDIR}/locale/" -DPSEMU_DATA_DIR="${CMAKE_INSTALL_FULL_DATAROOTDIR}/psemu" -DDEF_PLUGIN_DIR="${CMAKE_INSTALL_FULL_LIBDIR}/games/psemu")
 
@@ -63,7 +69,7 @@ target_link_libraries(DFXVideo ${X11_LIBRARIES} ${X11_Xv_LIB} ${X11_Xext_LIB} -l
 
 add_executable(cfgDFXVideo ${GUI_SRCS} ${RESOURCE_FILE})
 add_dependencies(cfgDFXVideo dfxvideo_resource)
-target_link_libraries(cfgDFXVideo ${GTK_LIBRARIES})
+target_link_libraries(cfgDFXVideo ${GTK_LIBRARIES} ${Intl_LIBRARIES})
 
 install(TARGETS DFXVideo LIBRARY DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/games/psemu)
 install(TARGETS cfgDFXVideo RUNTIME DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/games/psemu)
